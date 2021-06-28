@@ -1,5 +1,6 @@
 package com.example.stopme.app;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @RestController
 public class MyController {
@@ -22,7 +24,15 @@ public class MyController {
         res.put("echo", echo);
         return res;
     }
-
+    @SneakyThrows
+    @RequestMapping("/block")
+    public Map block(String echo) {
+        Object take = new LinkedBlockingQueue<>().take();
+        Map<String, String> res = new HashMap<>();
+        res.put("time", System.currentTimeMillis() + "");
+        res.put("echo", echo);
+        return res;
+    }
 
     @RequestMapping("/myexit")
     public String exit() {
