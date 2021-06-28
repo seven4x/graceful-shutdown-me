@@ -1,5 +1,7 @@
 # graceful shutdown template app
 
+detail: https://www.yuque.com/seven4x/blog/hsmy5a
+
 k8s:
 https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination
 
