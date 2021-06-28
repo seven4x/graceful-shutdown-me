@@ -19,7 +19,7 @@ import java.util.concurrent.locks.LockSupport;
 @Log
 public class MyWorker {
 
-    ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 2, 2,
+    ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 4, 2,
             TimeUnit.MINUTES, new LinkedBlockingQueue<>(),
             new ThreadPoolExecutor.CallerRunsPolicy());
     Producer producer;
@@ -34,6 +34,8 @@ public class MyWorker {
         consumer = new Consumer(queue);
         executor.execute(producer);
         executor.execute(consumer);
+        executor.execute(new LongTimeJob());
+        executor.execute(new LongTimeJob2());
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -66,7 +68,8 @@ public class MyWorker {
             }
         }
         System.out.println("shutdown  executor");
-        //如果不退出，
-        executor.shutdown();
+        //如果不退出，或者shutdown ?
+//        executor.shutdown();
+       executor.shutdownNow();
     }
 }
